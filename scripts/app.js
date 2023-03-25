@@ -39,6 +39,7 @@ const loadSingleRoom = async (id) => {
     try {
         const data = await fetch(`http://localhost:5000/room/${id}`)
         const room = await data.json()
+        const roomInCart = getStoredCart() // check if is in the cart
 
         const detailsContainer = document.getElementById('detailsContainer')
         detailsContainer.innerHTML = ''
@@ -47,6 +48,7 @@ const loadSingleRoom = async (id) => {
         detailsContainer.classList.add('details-card')
         detailsContainer.classList.remove('d-none')
 
+        //amenities list
         const amenitiesList = document.createElement('ul')
         amenitiesList.classList.add('list-group')
         for (let i = 0; i < room.amenities.length; i++) {
@@ -58,6 +60,7 @@ const loadSingleRoom = async (id) => {
             amenityItem.textContent = room.amenities[i]
             amenitiesList.appendChild(amenityItem)
         }
+        // beds list
         const bedList = document.createElement('ul')
         bedList.classList.add('list-group')
         for (let i = 0; i < room.beds.length; i++) {
@@ -65,7 +68,6 @@ const loadSingleRoom = async (id) => {
             bedItem.innerHTML = `<p class="list-group-item text-white bg-dark list-group-item-action">${room.beds[i].count} Bed ${room.beds[i].size} Size</p>`
             bedList.appendChild(bedItem)
         }
-
         row.innerHTML = `
         <div class="col-md-6">
             <img src=${room?.image} class="img-fluid" alt="Room Image">
@@ -76,7 +78,8 @@ const loadSingleRoom = async (id) => {
             <p class="mb-3">${room?.description}</p>
             ${amenitiesList.outerHTML}
             <p class="my-3">Starting at $${room?.price} per night</p>
-            <button class="btn btn-primary my-btn" onclick="addToCart('${room?._id}')" >Book Now</button>
+            <p> ${id in roomInCart ? 'Already in Cart' : ''}</p>       
+            <button class="btn btn-primary my-btn" disable="${id in roomInCart ? true : false}" onclick="addToCart('${room?._id}')" >Book Now</button>
             <button class="btn btn-danger " onclick="closeDetails()">Close Details</button>
         </div>
         `
@@ -87,20 +90,214 @@ const loadSingleRoom = async (id) => {
     }
 }
 
+// cart number 
+const cartNumber = () => {
+    const cartObject = getStoredCart()
+    let sum = 0;
+    for (let e in cartObject) {
+        sum += cartObject[e];
+    }
+    const cartNumberContainer = document.getElementById('cart-num')
+    cartNumberContainer.innerText = sum
+
+}
 // add the room to the local storage as a cart
 const addToCart = (id) => {
-    
-    
+    let roomCart = {};
+
+    //get the shopping cart from local storage
+    const storedCart = localStorage.getItem('room-cart');
+    if (storedCart) {
+        roomCart = JSON.parse(storedCart);
+    }
+
+    // add quantity
+    const quantity = roomCart[id];
+    if (quantity) {
+        const newQuantity = quantity + 1;
+        roomCart[id] = newQuantity;
+    }
+    else {
+        roomCart[id] = 1;
+    }
+    localStorage.setItem('room-cart', JSON.stringify(roomCart));
+    closeDetails()
+    successModal()
+    cartNumber()
+    cartLoadData()
+}
+// cart modal 
+
+const cartBtn = document.getElementById('cart-btn')
+const cartClose = document.getElementById('cart-close')
+
+cartClose.addEventListener('click', () => {
+
+    const cartSection = document.getElementById('cart-section')
+    cartSection.classList.remove('show-success')
+    cartSection.classList.add('hide-success')
+})
+cartBtn.addEventListener('click', () => {
+
+    const cartSection = document.getElementById('cart-section')
+    cartSection.classList.toggle('show-success')
+    cartSection.classList.toggle('hide-success')
+
+
+})
+
+// load cart data
+const cartLoadData = async () => {
+    const cartData = getStoredCart()
+    const cartContainer = document.getElementById('cart-container')
+    console.log('====================================');
+    console.log(cartData);
+    console.log('====================================');
+    cartContainer.innerHTML = ''
+    if (Object.keys(cartData).length !== 0) {
+
+        for (let element in cartData) {
+            const data = await fetch(`http://localhost:5000/room/${element}`)
+            const room = await data.json()
+            console.log('====================================');
+            console.log(room, cartData[element]);
+            console.log('====================================');
+            const div = document.createElement('div')
+            div.innerHTML = `<div class="container">
+            <div class="row justify-content-between">
+              <div class="col-auto">
+                <h5 class="mb-0">${room.name}</h5>
+              </div>
+              <div class="col-auto">
+                <span>Quantity: ${cartData[element]}</span>
+              </div>
+              <div class="col-auto">
+                <span>Price: $${room.price}</span>
+              </div>
+            </div>
+       
+          </div>`
+            cartContainer.appendChild(div)
+
+        }
+        const div2 = document.createElement('div')
+        div2.innerHTML = ` <div class="container pt-5">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+       
+              <div class="form-group">
+                <label for="name" style="color: white;">Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Enter your name" style="background-color: #4d4d4d; color: white;">
+              </div>
+              <div class="form-group">
+                <label for="email" style="color: white;">Email address</label>
+                <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" style="background-color: #4d4d4d; color: white;">
+              </div>
+              <div class="form-group">
+                <label for="phone" style="color: white;">Phone</label>
+                <input type="tel" class="form-control" id="phone" placeholder="Enter phone number" style="background-color: #4d4d4d; color: white;">
+              </div>
+              <div class="form-group">
+             <label for="start-date" style="color: white;">Start Date</label>
+                 <input type="date" class="form-control" id="start-date" style="background-color: #4d4d4d; color: white;">
+                    </div>
+            <div class="form-group">
+        <label for="end-date" style="color: white;">End Date</label>
+        <input type="date" class="form-control" id="end-date" style="background-color: #4d4d4d; color: white;">
+            </div>
+              <button type="submit" class="btn my-btn text-white my-4" onclick="postbooking('${cartData}')">Submit</button>
+           
+          </div>
+        </div>
+      </div>`
+        cartContainer.appendChild(div2)
+    } else {
+        const div = document.createElement('div')
+        div.innerHTML = `<div class="container">
+            <div class="text-white">
+              There is Nothing in the Cart
+          </div>`
+        cartContainer.appendChild(div)
+    }
 
 }
 
+//submit form 
+const postbooking = (cartData) => {
+    const name = document.getElementById('name')
+    const email = document.getElementById('email')
+    const phone = document.getElementById('phone')
+    const startDateInput = document.getElementById('start-date');
+    const endDateInput = document.getElementById('end-date');
 
+
+    const startDateValue = startDateInput.value;
+    const endDateValue = endDateInput.value;
+    const nameValue = name.value;
+    const emailValue = email.value;
+    const phoneValue = phone.value;
+    
+
+
+
+    const startDate = new Date(startDateValue);
+    const endDate = new Date(endDateValue);
+
+    const booking = {
+        startDate,
+        endDate,
+     nameValue,
+     emailValue,
+     phoneValue
+    }
+    fetch('http://localhost:5000/bookings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(booking)
+      })
+        .then(response => response.json())
+        .then(data =>{
+            if(data.acknowledge){
+                deleteCart()
+            }
+        })
+        .catch(error => console.error(error));
+}
+
+// get the local storage data
+const getStoredCart = () => {
+    let roomCart = {};
+
+    //get the shopping cart from local storage
+    const storedCart = localStorage.getItem('room-cart');
+    if (storedCart) {
+        roomCart = JSON.parse(storedCart);
+    }
+    return roomCart;
+}
+// success message
+const successModal = () => {
+    const successModalContainer = document.getElementById('successmodal')
+    successModalContainer.classList.add('show-success')
+    successModalContainer.classList.remove('hide-success')
+    setTimeout(() => {
+        successModalContainer.classList.remove('show-success')
+        successModalContainer.classList.add('hide-success')
+    }, 1500)
+}
 // closeDetails function
-const closeDetails = ()=>{
+const closeDetails = () => {
     const detailsContainer = document.getElementById('detailsContainer')
     detailsContainer.classList.remove('details-card')
     detailsContainer.classList.add('d-none')
 }
+//clear cart
+const deleteCart = () =>{
+    localStorage.removeItem('room-cart');
+}
 
-
+cartLoadData()
+cartNumber()
 loadRooms()
