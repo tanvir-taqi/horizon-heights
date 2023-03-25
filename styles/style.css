@@ -24,6 +24,7 @@ body {
   filter: drop-shadow(0 10px 100px var(--primary-color));
 }
 
+
 /* ========== my btn =========  */
 .my-btn {
   background: var(--primary-color);
@@ -214,6 +215,87 @@ li {
 }
 
 /* ========== hero section ends =======  */
+
+
+/* ==============  rooms section starts =========  */
+.room-card{
+  background: #000;
+  color: white;
+  border: 1px solid var(--primary-color);
+  padding: 4px;
+  cursor: pointer;
+  transition: all 0.6s ease-in-out;
+}
+.room-card:hover {
+  border: none;
+  background: transparent;
+  transform: scale(0.9);
+  /* box-shadow: 0 0 10px var(--accent-color); */
+}
+
+.room-card::after {
+  content: "";
+  position: absolute;
+  height: 0%;
+  width: 0%;
+  /* background:transparent; */
+  top: 0;
+  left: 0;
+  transition: all 0.6s ease-in-out;
+  transform: scaleX(0);
+  transform: scaleY(0);
+  border-top: none;
+  border-left: none;
+  
+}
+
+.room-card:hover::after {
+  border-top: 1px solid var(--accent-color);
+  border-left: 1px solid var(--accent-color);
+  transform: scaleX(1);
+  transform: scaleY(1);
+  height: 100%;
+  width: 100%;
+}
+
+.room-card::before {
+  content: "";
+  position: absolute;
+  height: 0%;
+  width: 0%;
+  /* background:transparent; */
+  bottom: 0;
+  right: 0;
+  transition: all 0.6s ease-in-out;
+  transform: scaleX(0);
+  transform: scaleY(0);
+  border-bottom: none;
+  border-right: none;
+  
+}
+
+.room-card:hover::before {
+  border-bottom: 1px solid var(--accent-color);
+  border-right: 1px solid var(--accent-color);
+  transform: scaleX(1);
+  transform: scaleY(1);
+  height: 100%;
+  width: 100%;
+}
+
+.details-card{
+  background: black;
+  padding: 20px;
+  border: 1px solid var(--primary-color);
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  z-index: 100;
+
+}
+/* ==============  rooms section ends =========  */
+
 /* ========== about section starts =======  */
 
 .about-img {
@@ -396,7 +478,7 @@ li {
   border-radius: 5px;
   margin-bottom: 20px;
   filter: brightness(70%);
-}
+} 
 
 .activity-title {
   font-weight: 700;
