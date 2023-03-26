@@ -259,6 +259,9 @@ li {
 
 
 /* ==============  rooms section starts =========  */
+#packages{
+  position: relative;
+}
 .room-card {
   background: #000;
   color: white;
@@ -266,13 +269,14 @@ li {
   padding: 4px;
   cursor: pointer;
   transition: all 0.6s ease-in-out;
+  
 }
 
 .room-card:hover {
   border: none;
   background: transparent;
   transform: scale(0.9);
-  /* box-shadow: 0 0 10px var(--accent-color); */
+  
 }
 
 .room-card::after {
@@ -329,7 +333,7 @@ li {
   background: black;
   padding: 20px;
   border: 1px solid var(--primary-color);
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   min-width: 100%;
