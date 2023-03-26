@@ -4,7 +4,7 @@
 const loadRooms = async () => {
     try {
         loader(true)
-        const data = await fetch('http://localhost:5000/rooms')
+        const data = await fetch('https://horizon-heights-server.vercel.app/rooms')
         const rooms = await data.json()
 
         const roomCardContainer = document.getElementById('room-card-container')
@@ -25,7 +25,7 @@ const loadRooms = async () => {
             roomCardContainer.appendChild(roomCard)
         });
 
-
+        
     } catch (error) {
         loader(false)
         console.log('====================================');
@@ -40,7 +40,7 @@ const loadRooms = async () => {
 const loadSingleRoom = async (id) => {
     try {
         loader(true)
-        const data = await fetch(`http://localhost:5000/room/${id}`)
+        const data = await fetch(`https://horizon-heights-server.vercel.app/room/${id}`)
         const room = await data.json()
         const roomInCart = getStoredCart() // check if is in the cart
 
@@ -157,7 +157,7 @@ const cartLoadData = async () => {
         let bookingData = []
 
         for (let element in cartData) {
-            const data = await fetch(`http://localhost:5000/room/${element}`)
+            const data = await fetch(`https://horizon-heights-server.vercel.app/room/${element}`)
             const room = await data.json()
 
             const bookingElement = {
@@ -273,7 +273,7 @@ const postbooking = (bookingData) => {
         bookingData
     }
 
-    fetch('http://localhost:5000/bookings', {
+    fetch('https://horizon-heights-server.vercel.app/bookings', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -329,6 +329,7 @@ const closeDetails = () => {
 //clear cart
 const deleteCart = () => {
     localStorage.removeItem('room-cart');
+    location.reload();
 }
 const cartClosed = () => {
     const cartSection = document.getElementById('cart-section')
