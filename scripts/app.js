@@ -3,6 +3,7 @@
 // load all the rooms details
 const loadRooms = async () => {
     try {
+        loader(true)
         const data = await fetch('http://localhost:5000/rooms')
         const rooms = await data.json()
 
@@ -19,13 +20,14 @@ const loadRooms = async () => {
            
                 <p class="card-text">Starting at $${room?.price} per night</p>
               </div>
-            </div>
-                `
+            </div>`
+            loader(false)
             roomCardContainer.appendChild(roomCard)
         });
 
 
     } catch (error) {
+        loader(false)
         console.log('====================================');
         console.log(error);
         console.log('====================================');
@@ -37,6 +39,7 @@ const loadRooms = async () => {
 // load a single room data
 const loadSingleRoom = async (id) => {
     try {
+        loader(true)
         const data = await fetch(`http://localhost:5000/room/${id}`)
         const room = await data.json()
         const roomInCart = getStoredCart() // check if is in the cart
@@ -83,10 +86,11 @@ const loadSingleRoom = async (id) => {
             <button class="btn btn-danger " onclick="closeDetails()">Close Details</button>
         </div>
         `
+        loader(false)
         detailsContainer.appendChild(row)
     }
     finally {
-
+        loader(false)
     }
 }
 
@@ -132,10 +136,7 @@ const cartBtn = document.getElementById('cart-btn')
 const cartClose = document.getElementById('cart-close')
 
 cartClose.addEventListener('click', () => {
-
-    const cartSection = document.getElementById('cart-section')
-    cartSection.classList.remove('show-success')
-    cartSection.classList.add('hide-success')
+    cartClosed()
 })
 cartBtn.addEventListener('click', () => {
 
@@ -150,18 +151,23 @@ cartBtn.addEventListener('click', () => {
 const cartLoadData = async () => {
     const cartData = getStoredCart()
     const cartContainer = document.getElementById('cart-container')
-    console.log('====================================');
-    console.log(cartData);
-    console.log('====================================');
     cartContainer.innerHTML = ''
     if (Object.keys(cartData).length !== 0) {
+        loader(true)
+        let bookingData = []
 
         for (let element in cartData) {
             const data = await fetch(`http://localhost:5000/room/${element}`)
             const room = await data.json()
-            console.log('====================================');
-            console.log(room, cartData[element]);
-            console.log('====================================');
+
+            const bookingElement = {
+                room: room.name,
+                count: cartData[element]
+            }
+            if (bookingData.indexOf(bookingElement) == -1) {
+                bookingData.push(bookingElement)
+            }
+
             const div = document.createElement('div')
             div.innerHTML = `<div class="container">
             <div class="row justify-content-between">
@@ -180,6 +186,10 @@ const cartLoadData = async () => {
             cartContainer.appendChild(div)
 
         }
+        const booking = JSON.stringify({ bookingData: bookingData })
+        console.log('====================================');
+        console.log(booking);
+        console.log('====================================');
         const div2 = document.createElement('div')
         div2.innerHTML = ` <div class="container pt-5">
         <div class="row justify-content-center">
@@ -205,12 +215,14 @@ const cartLoadData = async () => {
         <label for="end-date" style="color: white;">End Date</label>
         <input type="date" class="form-control" id="end-date" style="background-color: #4d4d4d; color: white;">
             </div>
-              <button type="submit" class="btn my-btn text-white my-4" onclick="postbooking('${cartData}')">Submit</button>
-           
-          </div>
-        </div>
+              <button type="submit" class="btn my-btn text-white my-4" onclick='postbooking(${booking})'>Order Confirm</button>
+              
+              </div>
+              </div>
+              <button type="submit" class="btn btn-danger btn-sm text-white my-4" onclick='cartClear()'>Clear Cart </button>
       </div>`
         cartContainer.appendChild(div2)
+        loader(false)
     } else {
         const div = document.createElement('div')
         div.innerHTML = `<div class="container">
@@ -222,8 +234,17 @@ const cartLoadData = async () => {
 
 }
 
+// cartClear 
+
+const cartClear = () => {
+    cartNumber()
+    cartClosed()
+    deleteCart()
+}
+
 //submit form 
-const postbooking = (cartData) => {
+const postbooking = (bookingData) => {
+    loader(true)
     const name = document.getElementById('name')
     const email = document.getElementById('email')
     const phone = document.getElementById('phone')
@@ -236,8 +257,8 @@ const postbooking = (cartData) => {
     const nameValue = name.value;
     const emailValue = email.value;
     const phoneValue = phone.value;
-    
 
+    
 
 
     const startDate = new Date(startDateValue);
@@ -246,24 +267,36 @@ const postbooking = (cartData) => {
     const booking = {
         startDate,
         endDate,
-     nameValue,
-     emailValue,
-     phoneValue
+        nameValue,
+        emailValue,
+        phoneValue,
+        bookingData
     }
+
     fetch('http://localhost:5000/bookings', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(booking)
-      })
+    })
         .then(response => response.json())
-        .then(data =>{
-            if(data.acknowledge){
+        .then(data => {
+            console.log('====================================');
+            console.log(data);
+            console.log('====================================');
+            if (data.acknowledged) {
+                cartNumber()
+                cartClosed()
                 deleteCart()
+                loader(false)
+                location.reload();
             }
         })
-        .catch(error => console.error(error));
+        .catch(error =>{
+            loader(false)
+            console.error(error)
+        } );
 }
 
 // get the local storage data
@@ -294,9 +327,27 @@ const closeDetails = () => {
     detailsContainer.classList.add('d-none')
 }
 //clear cart
-const deleteCart = () =>{
+const deleteCart = () => {
     localStorage.removeItem('room-cart');
 }
+const cartClosed = () => {
+    const cartSection = document.getElementById('cart-section')
+    cartSection.classList.remove('show-success')
+    cartSection.classList.add('hide-success')
+}
+
+const loader = (isLoading) =>{
+    const loaderContainer = document.getElementById('loader')
+    if(isLoading){
+        loaderContainer.classList.add('show-success')
+        loaderContainer.classList.remove('hide-success')
+    }else{
+        loaderContainer.classList.remove('show-success')
+        loaderContainer.classList.add('hide-success')
+    }
+}
+
+
 
 cartLoadData()
 cartNumber()
