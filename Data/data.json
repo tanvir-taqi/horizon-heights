@@ -1,0 +1,117 @@
+[
+    {
+        "_id":1,
+      "name": "Standard Room",
+      "description": "Our standard room is perfect for solo travelers or couples. It features a comfortable queen-size bed, a private bathroom with a shower, and a workspace.",
+      "image": "https://img.freepik.com/free-photo/modern-studio-apartment-design-with-bedroom-living-space_1262-12375.jpg?size=626&ext=jpg&uid=R48098109&semt=ais",
+      "price": 100,
+      "max_occupancy": 2,
+      "beds": [
+        {
+          "size": "Queen",
+          "count": 1
+        }
+      ],
+      "amenities": [
+        "Air conditioning",
+        "Free Wi-Fi",
+        "Flat-screen TV",
+        "Mini-fridge",
+        "Safe"
+      ]
+    },
+    {
+        "_id":2,
+      "name": "Superior Room",
+      "description": "Our superior room offers extra space and comfort for a more luxurious stay. It features a king-size bed, a private bathroom with a bathtub and shower, and a seating area.",
+      "image": "https://img.freepik.com/free-photo/modern-luxury-bedroom-suite-bathroom_105762-1791.jpg?size=626&ext=jpg&uid=R48098109&semt=ais",
+      "price": 150,
+      "max_occupancy": 2,
+      "beds": [
+        {
+          "size": "King",
+          "count": 1
+        }
+      ],
+      "amenities": [
+        "Air conditioning",
+        "Free Wi-Fi",
+        "Flat-screen TV",
+        "Mini-fridge",
+        "Safe",
+        "Seating area"
+      ]
+    },
+    {
+        "_id":3,
+      "name": "Deluxe Room",
+      "description": "Our deluxe room is perfect for families or small groups. It features two double beds, a private bathroom with a bathtub and shower, and a workspace.",
+      "image": "https://img.freepik.com/free-photo/luxury-classic-modern-bedroom-suite-hotel_105762-1787.jpg?size=626&ext=jpg&uid=R48098109&semt=ais",
+      "price": 200,
+      "max_occupancy": 4,
+      "beds": [
+        {
+          "size": "Double",
+          "count": 2
+        }
+      ],
+      "amenities": [
+        "Air conditioning",
+        "Free Wi-Fi",
+        "Flat-screen TV",
+        "Mini-fridge",
+        "Safe"
+      ]
+    },
+    {
+        "_id":4,
+      "name": "Executive Suite",
+      "description": "Our executive suite is perfect for travelers who want extra space and luxury. It features a king-size bed, a separate living room, a private bathroom with a bathtub and shower, and a kitchenette.",
+      "image": "https://img.freepik.com/free-photo/elegant-hotel-room-with-big-bed_1203-1494.jpg?size=626&ext=jpg&uid=R48098109&semt=ais",
+      "price": 300,
+      "max_occupancy": 2,
+      "beds": [
+        {
+          "size": "King",
+          "count": 1
+        }
+      ],
+      "amenities": [
+        "Air conditioning",
+        "Free Wi-Fi",
+        "Flat-screen TV",
+        "Mini-fridge",
+        "Safe",
+        "Separate living room",
+        "Kitchenette"
+      ]
+    },
+    {
+
+        "_id":5,
+      "name": "Family Suite",
+      "description": "Our family suite is perfect for larger groups or families. It features two separate bedrooms, one with a king-size bed and the other with two double beds, a private bathroom with a bathtub and shower, and a seating area.",
+      "image": "https://img.freepik.com/free-photo/bangkok-thailand-august-12-2016-beautiful-luxury-bedroom-int_1203-2348.jpg?size=626&ext=jpg&uid=R48098109&semt=ais",
+      "price": 400,
+      "max_occupancy": 6,
+      "beds": [
+        {
+          "size": "King",
+          "count": 1
+        },
+        {
+          "size": "Double",
+          "count": 2
+        }
+      ],
+      "amenities": [
+          "Air conditioning",
+          "Free Wi-Fi",
+          "Flat-screen TV",
+          "Mini-fridge",
+          "Safe",
+          "Separate living room",
+          "Kitchenette"
+        ]
+      }
+  ]

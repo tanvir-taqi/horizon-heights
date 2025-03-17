@@ -1,3 +1,7 @@
+/* Import google font */
+@import url('https://fonts.googleapis.com/css2?family=Doto:wght@100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+
 :root {
 
   --primary-color: #0B2239;
@@ -12,6 +16,7 @@
   padding: 0;
   box-sizing: border-box;
   scroll-behavior: smooth;
+  font-family: "Raleway", sans-serif;
 }
 
 body {
@@ -45,7 +50,6 @@ body {
   position: absolute;
   height: 0%;
   width: 0%;
-  /* background:transparent; */
   top: 0;
   left: 0;
   transition: all 0.6s ease-in-out;
@@ -70,7 +74,6 @@ body {
   position: absolute;
   height: 0%;
   width: 0%;
-  /* background:transparent; */
   bottom: 0;
   right: 0;
   transition: all 0.6s ease-in-out;
@@ -100,7 +103,7 @@ body {
 }
 
 .menu-link {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: var(--text-color);
 
@@ -113,12 +116,13 @@ body {
 }
 
 .menu-link::after {
+ 
   content: "";
   height: 2px;
   position: absolute;
-  width: 60%;
+  width: 40%;
   background: var(--accent-color);
-  bottom: 0;
+  bottom: 20%;
   left: 0;
   transform: scale(0);
   transition: all 1s ease;
@@ -126,12 +130,13 @@ body {
 }
 
 .menu-link::before {
+  
   content: "";
-  height: 60%;
+  height: 40%;
   position: absolute;
   width: 2px;
   background: var(--accent-color);
-  bottom: 0;
+  bottom: 20%;
   left: 0;
   transform: scale(0);
   transition: all 1s ease;
@@ -161,14 +166,16 @@ li {
 
 .my-brand {
   font-size: 2rem;
-  font-weight: 800;
+  font-weight: 900;
   color: #0081b4;
+  font-family: "Doto", sans-serif;
 }
 
 .my-brand span {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   color: #FF8A80;
   text-shadow: 0 0 30px #ffffff;
+  font-family: "Doto", sans-serif;
 }
 
 .my-brand:hover {
@@ -237,7 +244,7 @@ li {
 }
 
 .hero-text p {
-  font-size: 24px;
+  font-size: 22px;
   margin-bottom: 40px;
 }
 
@@ -369,6 +376,9 @@ li {
 
   display: none;
 }
+#detailsContainer{
+  border: 1px solid var(--accent-color);
+}
 
 /* ==============  rooms section ends =========  */
 
@@ -462,6 +472,29 @@ li {
   color: var(--accent-color);
 }
 
+/* =========  Gallery section =======  */
+#gallery{
+  color: var(--text-color);
+  padding: 60px 0;
+  text-align: center;
+}
+.photo-gallery{
+  display: flex;
+  overflow: hidden;
+  flex-wrap: wrap; 
+}
+.photo-gallery img{
+  width: 370px;
+  height: 250px;
+  padding: 10px;
+  display: block;
+  border-radius: 10px;
+  transition: all 0.6s ease;
+}
+.photo-gallery img:hover{
+  transform: scale(1.5);
+  align-self: center;
+}
 /* =========  events section =======  */
 #events {
   color: var(--text-color);
@@ -518,7 +551,7 @@ li {
 }
 
 .event-details p {
-  font-size: 16px;
+  font-size: 14px;
   margin-bottom: 20px;
 }
 
