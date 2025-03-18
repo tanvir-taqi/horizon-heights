@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Horizon Heights - Documentation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        padding: 20px;
+        max-width: 900px;
+        margin: auto;
+        background: #000;
+        color: #f4f4f4;
+      }
+      h1,
+      h2 {
+        color: #FF8A80;
+      }
+      code {
+        background: #0B2239;
+        padding: 2px 5px;
+        border-radius: 5px;
+      }
+      pre {
+        background: #0B2239;
+        padding: 10px;
+        border-radius: 5px;
+        overflow-x: auto;
+      }
+      ul {
+        padding-left: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Horizon Heights - HTML Template Documentation</h1>
+    <p>Thank you for purchasing Horizon Heights. This documentation will guide you through setting up and customizing your template.</p>
+    
+    <h2>1. Folder Structure</h2>
+    <pre>
+    horizon-heights/
+    ├── Data/          (Contains structured data files, if applicable)
+    ├── images/        (All template images and assets)
+    ├── scripts/       (JavaScript files for functionality)
+    ├── styles/        (CSS stylesheets)
+    ├── index.html     (Main entry point of the template)
+    ├── README.txt     (Basic instructions for quick setup)
+    ├── documentation/ (This documentation folder)
+    </pre>
+    
+    <h2>2. How to Install</h2>
+    <h3>Option 1: Local Installation</h3>
+    <p>1. Extract the <code>horizon-heights.zip</code> file.</p>
+    <p>2. Open the extracted folder and locate <code>index.html</code>.</p>
+    <p>3. Double-click to open it in your default web browser.</p>
+    
+    <h3>Option 2: Hosting on a Web Server</h3>
+    <p>1. Upload the entire extracted folder to your web server using FTP or cPanel.</p>
+    <p>2. Ensure your server supports HTML, CSS, and JavaScript.</p>
+    <p>3. Navigate to your domain (e.g., <code>www.yourdomain.com/horizon-heights/</code>).</p>
+    
+    <h2>3. Customization</h2>
+    <h3>Editing Styles</h3>
+    <p>To change the design, modify <code>styles/main.css</code>. You can update fonts, colors, and layouts.</p>
+    
+    <h3>Changing Images</h3>
+    <p>All template images are stored in the <code>images/</code> folder. Replace existing images while keeping the same filenames.</p>
+    
+    <h3>Modifying JavaScript</h3>
+    <p>Scripts for interactivity are inside the <code>scripts/</code> folder. Edit <code>scripts/main.js</code> to modify functionality.</p>
+    
+    <h2>4. JavaScript Functions</h2>
+    <p>The template includes JavaScript functions that handle interactive elements. Below are explanations of key functions:</p>
+    
+    <h3>Navigation Menu Toggle</h3>
+    <p>This function allows users to toggle the mobile menu:</p>
+    <pre>
+    function toggleMenu() {
+        let menu = document.getElementById('nav-menu');
+        menu.classList.toggle('active');
+    }
+    </pre>
+    <p><strong>How it works:</strong> When the menu button is clicked, it adds or removes the <code>active</code> class, making the menu visible or hidden.</p>
+    
+    <h3>Image Slider</h3>
+    <p>This function controls a basic image slider:</p>
+    <pre>
+    let currentSlide = 0;
+    function nextSlide() {
+        let slides = document.querySelectorAll('.slide');
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add('active');
+    }
+    </pre>
+    <p><strong>How it works:</strong> The function cycles through slides by removing and adding the <code>active</code> class.</p>
+    
+    <h3>Form Validation</h3>
+    <p>To ensure proper form input, this function checks if fields are empty before submission:</p>
+    <pre>
+    function validateForm() {
+        let name = document.getElementById('name').value;
+        let email = document.getElementById('email').value;
+        if (name === '' || email === '') {
+            alert('Please fill in all fields');
+            return false;
+        }
+        return true;
+    }
+    </pre>
+    <p><strong>How it works:</strong> If the name or email field is empty, an alert appears, preventing form submission.</p>
+    
+    <h2>5. Adding New Pages</h2>
+    <p>To create a new page:</p>
+    <ul>
+        <li>Duplicate an existing HTML file (e.g., <code>about.html</code>).</li>
+        <li>Rename it (e.g., <code>services.html</code>).</li>
+        <li>Edit its content in a text editor.</li>
+        <li>Update the navigation links in <code>index.html</code> and other pages.</li>
+    </ul>
+    
+    <h2>6. Credits & Resources</h2>
+    <p>This template uses:</p>
+    <ul>
+        <li>Google Fonts</li>
+        <li>Font Awesome Icons</li>
+        <li>Bootstrap</li>
+    </ul>
+    
+    <h2>7. Troubleshooting</h2>
+    <h3>Browser Issues</h3>
+    <p>If styles or scripts don't load, try clearing the cache or using a different browser.</p>
+    
+    <h3>Images Not Displaying</h3>
+    <p>Ensure image paths are correct and images are inside the <code>images/</code> folder.</p>
+    
+    <h2>8. Support</h2>
+    <p>If you encounter any issues, contact us at <code>[Your Support Email]</code>.</p>
+</body>
+</html>
